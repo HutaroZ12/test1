@@ -601,7 +601,7 @@ class PlayState extends MusicBeatState
 		for (notetype in noteTypes)
 			startLuasNamed('custom_notetypes/' + notetype + '.lua');
 		for (event in eventsPushed)
-			startLuasNamed(Paths.getSharedPath(), 'custom_events/' + event + '.lua'));
+			startLuasNamed(Paths.getSharedPath(), 'custom_events/' + event + '.lua');
 		#end
 
 		#if HSCRIPT_ALLOWED
