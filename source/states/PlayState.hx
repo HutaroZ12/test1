@@ -598,45 +598,12 @@ class PlayState extends MusicBeatState
 		startingSong = true;
 
 		#if LUA_ALLOWED
-for (notetype in noteTypes)
-	startLuasNamed('custom_notetypes/' + notetype + '.lua');
-
-// Carrega custom events procurando preferencialmente em assets/shared/custom_events/
-for (event in eventsPushed)
-{
-	var luaFilename:String = 'custom_events/' + event + '.lua';
-
-	// 1) tentar no shared assets (assets/shared/custom_events/<event>.lua)
-	var assetPath:String = Paths.getSharedPath(luaFilename); // Paths.getSharedPath monta 'assets/shared/' corretamente
-	if (!assetPath.endsWith('/')) assetPath += '/'; // apenas garantia, Paths.getSharedPath já formata
-	if (NativeFileSystem.exists(assetPath))
-	{
-		FlxG.log.add('Loading custom event lua from assets: ' + assetPath);
-		new FunkinLua(assetPath);
-		continue;
-	}
-
-	// 2) tentar compatibilidade antiga 'shared/custom_events/<event>.lua' (o engine pode usar este formato)
-	var sharedCompat:String = 'shared/custom_events/' + event + '.lua';
-	if (NativeFileSystem.exists(sharedCompat))
-	{
-		FlxG.log.add'Loading custom event lua from shared compat: ' + sharedCompat);
-		startLuasNamed(sharedCompat);
-		continue;
-	}
-
-	// 3) fallback para mods/custom_events/<event>.lua
-	var modsPath:String = Paths.modFolders('custom_events/' + event + '.lua');
-	if (NativeFileSystem.exists(modsPath))
-	{
-		FlxG.log.add('Loading custom event lua from mods: ' + modsPath);
-		new FunkinLua(modsPath);
-		continue;
-	}
-
-	FlxG.log.add('Custom event lua not found for event: ' + event);
-}
-#end
+		for (notetype in noteTypes)
+			startLuasNamed('custom_notetypes/' + notetype + '.lua');	
+		for (event in Mods.directoriesWithFile)
+			Paths.getSharedPath('custom_events/' + event + '.lua');
+		#end
+			
 		#if HSCRIPT_ALLOWED
 		for (notetype in noteTypes)
 			startHScriptsNamed('custom_notetypes/' + notetype + '.hx');
