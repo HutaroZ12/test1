@@ -598,11 +598,37 @@ class PlayState extends MusicBeatState
 		startingSong = true;
 
 		#if LUA_ALLOWED
-		for (notetype in noteTypes)
-			startLuasNamed('custom_notetypes/' + notetype + '.lua');	
-		for (event in eventsPushed)
-			startLuasNamed('shared/custom_events/' + event + '.lua');
-		#end
+for (notetype in noteTypes)
+	startLuasNamed('custom_notetypes/' + notetype + '.lua');
+
+var sharedBase:String = Paths.getSharedPath(); // normalmente 'assets/shared/' ou equivalente
+if (!sharedBase.endsWith('/')) sharedBase += '/';
+
+for (event in eventsPushed)
+{
+	// caminhos a verificar, na ordem de preferência
+	var candidatePaths:Array<String> = [
+		sharedBase + 'custom_events/' + event + '.lua',   // assets/shared/custom_events/...
+		'shared/custom_events/' + event + '.lua',         // compatibilidade antiga
+		'mods/custom_events/' + event + '.lua'            // fallback em mods
+	];
+
+	var loaded:Bool = false;
+	for (p in candidatePaths)
+	{
+		// verifica se o arquivo existe no filesystem (evita erros de load)
+		if (NativeFileSystem.exists(p))
+		{
+			FlxG.log.trace('Loading custom event lua from: ' + p);
+			startLuasNamed(p);
+			loaded = true;
+			break;
+		}
+	}
+	if (!loaded)
+		FlxG.log.trace('Custom event lua not found for event: ' + event);
+}
+#end
 
 		#if HSCRIPT_ALLOWED
 		for (notetype in noteTypes)
