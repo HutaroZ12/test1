@@ -608,10 +608,10 @@ for (event in eventsPushed)
 
 	// 1) tentar no shared assets (assets/shared/custom_events/<event>.lua)
 	var assetPath:String = Paths.getSharedPath(luaFilename); // Paths.getSharedPath monta 'assets/shared/' corretamente
-	if (!assetPath.endsWith('/')) assetPath = assetPath; // apenas garantia, Paths.getSharedPath já formata
+	if (!assetPath.endsWith('/')) assetPath += '/'; // apenas garantia, Paths.getSharedPath já formata
 	if (NativeFileSystem.exists(assetPath))
 	{
-		FlxG.log.trace('Loading custom event lua from assets: ' + assetPath);
+		FlxG.log.add('Loading custom event lua from assets: ' + assetPath);
 		new FunkinLua(assetPath);
 		continue;
 	}
@@ -620,7 +620,7 @@ for (event in eventsPushed)
 	var sharedCompat:String = 'shared/custom_events/' + event + '.lua';
 	if (NativeFileSystem.exists(sharedCompat))
 	{
-		FlxG.log.trace('Loading custom event lua from shared compat: ' + sharedCompat);
+		FlxG.log.add'Loading custom event lua from shared compat: ' + sharedCompat);
 		startLuasNamed(sharedCompat);
 		continue;
 	}
@@ -629,12 +629,12 @@ for (event in eventsPushed)
 	var modsPath:String = Paths.modFolders('custom_events/' + event + '.lua');
 	if (NativeFileSystem.exists(modsPath))
 	{
-		FlxG.log.trace('Loading custom event lua from mods: ' + modsPath);
+		FlxG.log.add('Loading custom event lua from mods: ' + modsPath);
 		new FunkinLua(modsPath);
 		continue;
 	}
 
-	FlxG.log.trace('Custom event lua not found for event: ' + event);
+	FlxG.log.add('Custom event lua not found for event: ' + event);
 }
 #end
 		#if HSCRIPT_ALLOWED
