@@ -601,14 +601,14 @@ class PlayState extends MusicBeatState
 		for (notetype in noteTypes)
 			startLuasNamed('custom_notetypes/' + notetype + '.lua');	
 		for (event in eventsPushed)
-			startLuasNamed('custom_events/' + event + '.lua');
+			startLuasNamed('shared/custom_events/' + event + '.lua');
 		#end
 
 		#if HSCRIPT_ALLOWED
 		for (notetype in noteTypes)
 			startHScriptsNamed('custom_notetypes/' + notetype + '.hx');
 		for (event in eventsPushed)
-			startHScriptsNamed('custom_events/' + event + '.hx');
+			startHScriptsNamed('shared/custom_events/' + event + '.hx');
 		#end
 		noteTypes = null;
 		eventsPushed = null;
@@ -623,7 +623,6 @@ class PlayState extends MusicBeatState
 		// SONG SPECIFIC SCRIPTS
 		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
 		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/$songName/'))
-		for (event in Paths.getSharedPath('custom_events/' + eventName + '.lua'))
 			#if linux
 			for (file in CoolUtil.sortAlphabetically(NativeFileSystem.readDirectory(folder)))
 			#else
