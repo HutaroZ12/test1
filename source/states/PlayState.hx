@@ -600,7 +600,7 @@ class PlayState extends MusicBeatState
 		#if LUA_ALLOWED
 		for (notetype in noteTypes)
 			startLuasNamed('custom_notetypes/' + notetype + '.lua');	
-		for (event in events)
+		for (event in eventsPushed)
 			startLuasNamed('custom_events/' + event + '.lua');
 		#end
 			
